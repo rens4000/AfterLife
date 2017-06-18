@@ -1,0 +1,7 @@
+name: Afterlife
+version: 1.0
+main: me.rens4000.afterlife.Main
+commands:
+  Afterlife:
+    description: Cool commando
+    
