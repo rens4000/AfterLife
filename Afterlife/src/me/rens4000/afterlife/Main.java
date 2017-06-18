@@ -57,6 +57,7 @@ public class Main extends JavaPlugin implements Listener {
                                 cooldownTask.remove(p);
                                 p.removePotionEffect(PotionEffectType.INVISIBILITY);
                                 Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.showPlayer(p));
+                                p.sendMessage(ChatColor.AQUA + "Je bent weer levend! Veel succes.");
                                 cancel();
                         }
                 }
