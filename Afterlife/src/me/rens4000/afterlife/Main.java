@@ -49,6 +49,7 @@ public class Main extends JavaPlugin implements Listener {
 			p.setGameMode(GameMode.ADVENTURE);
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, false, false));
             p.setCanPickupItems(false);
+            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mute " + p.getName() + " 5m");
             Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.hidePlayer(p));
             p.setGameMode(GameMode.SURVIVAL);
             p.setCanPickupItems(true);
