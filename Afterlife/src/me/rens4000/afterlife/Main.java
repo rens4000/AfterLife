@@ -48,20 +48,21 @@ public class Main extends JavaPlugin implements Listener {
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, false, false));
             Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.hidePlayer(p));
             p.setGameMode(GameMode.SURVIVAL);
-			cooldownTask.put(p.getUniqueId(), new BukkitRunnable() {
-                public void run() {
-                        afterlife.put(p.getUniqueId(), afterlife.get(p.getUniqueId()) - 1);
-                        if (afterlife.get(p) == 0) {
-                        	afterlife.remove(p);
-                        	
-                                cooldownTask.remove(p);
-                                p.removePotionEffect(PotionEffectType.INVISIBILITY);
-                                Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.showPlayer(p));
-                                p.sendMessage(ChatColor.AQUA + "Je bent weer levend! Veel succes.");
-                                cancel();
-                        }
-                }
-        });
+			 new BukkitRunnable() {
+					
+					@Override
+					public void run() {
+						if(afterlife.get(p.getUniqueId()) != 0) {
+							afterlife.put(p.getUniqueId(), afterlife.get(p.getUniqueId()) - 1);
+						} else {
+							afterlife.remove(p.getUniqueId());
+							 p.removePotionEffect(PotionEffectType.INVISIBILITY);
+                             Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.showPlayer(p));
+                             p.sendMessage(ChatColor.AQUA + "Je bent weer levend! Veel succes.");
+							this.cancel();
+						}
+					}
+				}.runTaskTimerAsynchronously(this, 20, 20);
        
 			
 			} else {
