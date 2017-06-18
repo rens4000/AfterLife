@@ -30,6 +30,7 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, this);
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		
@@ -45,11 +46,13 @@ public class Main extends JavaPlugin implements Listener {
 			}
 			Player p = Bukkit.getPlayer(args[0]);
 			sender.sendMessage(ChatColor.AQUA + "Speler is in afterlife gezet!");
-			afterlife.put(Bukkit.getPlayer(args[0]).getUniqueId(), 300);//300 is het aantal secondes.
+			afterlife.put(Bukkit.getPlayer(args[0]).getUniqueId(), 300);//Default = 300
 			p.setGameMode(GameMode.ADVENTURE);
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, false, false));
             p.setCanPickupItems(false);
-            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mute " + p.getName() + " 5m");
+            p.sendTitle(ChatColor.AQUA + "U bent dood gegaan", ChatColor.RED + "U bent tijdelijk een geest");
+            p.sendMessage(ChatColor.RED + "Je bent nu 5 minuten niet zichbaar voor andere spelers, ook kan je niet catten, items opakken of commands uitvoeren. Na 5 minuten zal je weer levend zijn en kan je alles weer!");
+            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mute " + p.getName() + " 5m"); //default = 5m
             Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.hidePlayer(p));
             p.setGameMode(GameMode.SURVIVAL);
             p.setCanPickupItems(true);
