@@ -46,8 +46,10 @@ public class Main extends JavaPlugin implements Listener {
 			afterlife.put(Bukkit.getPlayer(args[0]).getUniqueId(), 300);//300 is het aantal secondes.
 			p.setGameMode(GameMode.ADVENTURE);
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, false, false));
+            p.setCanPickupItems(false);
             Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.hidePlayer(p));
             p.setGameMode(GameMode.SURVIVAL);
+            p.setCanPickupItems(true);
 			 new BukkitRunnable() {
 					
 					@Override
