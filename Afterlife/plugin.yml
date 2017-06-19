@@ -4,5 +4,6 @@ main: nl.gewoonhdgaming.afterlife.Main
 author: [boykev,rens4000]
 commands:
   Afterlife:
-    description: Cool commando
-    
+    description: Main Command for AfterLife
+  al:
+    description: Information Command for AfterLife

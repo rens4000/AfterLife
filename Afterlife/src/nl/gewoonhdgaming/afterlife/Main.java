@@ -77,6 +77,26 @@ public class Main extends JavaPlugin implements Listener {
 				sender.sendMessage(ChatColor.RED + "Niet genoeg permissie!");
 			}
 		}
+    	else if (command.getName().equalsIgnoreCase("al") && sender instanceof Player){
+			
+			Player p = (Player) sender;
+			if (args.length == 0) {
+				if (p.hasPermission("Teamspeak.admin")) {
+					p.sendMessage(ChatColor.RED + "Development by: Boykev en Rens");
+					p.sendMessage(ChatColor.RED + "Product Owner: GewoonHDEnterprise");
+					p.sendMessage(ChatColor.RED + "Copyright, contribution not allowed!");
+			}
+			}			
+			else if (args[0].equalsIgnoreCase("info")) {
+				if (p.hasPermission("Teamspeak.admin")) {
+					p.sendMessage(ChatColor.RED + "AfterLife is een plugin waarin mensen tijdelijk dood zijn zonder deze uit de server te hoeven bannen");
+			}
+			}
+			else {
+				p.sendMessage(ChatColor.RED + "Er is wat fout gegaan!");
+			}
+			return true;
+		}
 		return false;	
 		
 	}
