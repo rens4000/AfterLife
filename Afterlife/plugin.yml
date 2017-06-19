@@ -1,6 +1,6 @@
 name: Afterlife
 version: 1.0
-main: me.rens4000.afterlife.Main
+main: nl.gewoonhdgaming.afterlife.Main
 author: [boykev,rens4000]
 commands:
   Afterlife:
