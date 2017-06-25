@@ -8,7 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,10 +26,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.connorlinfoot.actionbarapi.ActionBarAPI;
-
-import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_10_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_10_R1.PacketPlayOutChat;
 
 public class Main extends JavaPlugin implements Listener {
 	
@@ -121,7 +119,7 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	
 	public void sendAction(Player p, String message) {
-		PacketPlayOutChat packet = new PacketPlayOutChat(ChatSerializer.a("{\"text\":\"" + message + "\"}"));
+		PacketPlayOutChat packet = new PacketPlayOutChat(ChatSerializer.a("{\"text\":\"" + message + "\"}"), (byte) 2);
 		((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
 	}
 	
@@ -129,7 +127,7 @@ public class Main extends JavaPlugin implements Listener {
 	public void chatEvent(AsyncPlayerChatEvent e) {
 		if(afterlife.containsKey(e.getPlayer())) {
 			e.setCancelled(true);
-			e.getPlayer().sendMessage(ChatColor.RED + "Je zit in de afterlife, dus kan je niet praten! Je bent nog voor " + afterlife.get(e.getPlayer().getUniqueId()) + " secondes in afterlive!");
+			e.getPlayer().sendMessage(ChatColor.RED + "Je zit in de afterlive, dus kan je niet praten! Je bent nog voor " + afterlife.get(e.getPlayer().getUniqueId()) + " secondes in afterlive!");
 		}
 	}
 	
@@ -138,8 +136,8 @@ public class Main extends JavaPlugin implements Listener {
 		if(e.getEntity() instanceof Player) {
 			Player p = (Player) e.getEntity();
 			if(afterlife.containsKey(p.getUniqueId())) {
-				p.sendMessage(ChatColor.RED + "Je zit in de afterlife, dus kan je niet dood gaan! Je bent nog voor "
-			+ afterlife.get(p.getUniqueId()) + " secondes in afterlife!");
+				p.sendMessage(ChatColor.RED + "Je zit in de afterlive, dus kan je niet dood gaan! Je bent nog voor "
+			+ afterlife.get(p.getUniqueId()) + " secondes in afterlive!");
 				e.setCancelled(true);
 			}
 		}
@@ -149,7 +147,7 @@ public class Main extends JavaPlugin implements Listener {
 	public void itemPickup(PlayerPickupItemEvent e) {
 		if(afterlife.containsKey(e.getPlayer().getUniqueId())) {
 			e.getPlayer().sendMessage(ChatColor.RED + "Je zit in de afterlive, dus kan je geen items oppakken! Je bent nog voor "
-					+ afterlife.get(e.getPlayer().getUniqueId()) + " secondes in afterlife!");
+					+ afterlife.get(e.getPlayer().getUniqueId()) + " secondes in afterlive!");
 			e.setCancelled(true);
 		}
 	}
@@ -189,11 +187,10 @@ public class Main extends JavaPlugin implements Listener {
 							 p.removePotionEffect(PotionEffectType.INVISIBILITY);
 	                         Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.showPlayer(p));
 	                         p.sendMessage(ChatColor.AQUA + "Je bent weer levend! Veel succes.");
-	                         p.kickPlayer(ChatColor.RED + "Je bent weer levend! Rejoin de server om dit te bevestigen!");
 							this.cancel();
 						}
 						int i = afterlife.get(p.getUniqueId());
-						ActionBarAPI.sendActionBar(p,  ChatColor.WHITE + "Je bent nog voor " + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest!");
+						sendAction(p, ChatColor.WHITE + "Je bent nog voor " + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest!");
 					}
 				}.runTaskTimerAsynchronously(this, 20, 20);
 		}
@@ -205,8 +202,8 @@ public class Main extends JavaPlugin implements Listener {
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_AIR) {
 			if(afterlife.containsKey(p.getUniqueId())) {
 				e.setCancelled(true);
-				e.getPlayer().sendMessage(ChatColor.RED + "Je zit in de afterlife, dus kan je niet interacten! Je bent nog voor "
-						+ afterlife.get(e.getPlayer().getUniqueId()) + " secondes in afterlife!");
+				e.getPlayer().sendMessage(ChatColor.RED + "Je zit in de afterlive, dus kan je niet interacten! Je bent nog voor "
+						+ afterlife.get(e.getPlayer().getUniqueId()) + " secondes in afterlive!");
 			}
          }
 	}
