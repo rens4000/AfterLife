@@ -118,6 +118,8 @@ public class Main extends JavaPlugin implements Listener {
                          saveConfig();
 						this.cancel();
 					}
+					if(!afterlife.containsKey(p.getUniqueId()))
+						return;
 					int i = afterlife.get(p.getUniqueId());
 					ActionBarAPI.sendActionBar(p, "Je bent nog voor" + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest");
 				}
@@ -169,7 +171,7 @@ public class Main extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
-		if(getConfig().get("sessions." + e.getPlayer().getUniqueId()) != null) {
+		if(getConfig().contains("sessions." + e.getPlayer().getUniqueId())) {
 			Player p = (Player) e.getPlayer();
 			afterlife.put(p.getUniqueId(), getConfig().getInt("sessions." + e.getPlayer().getUniqueId()));//Default = 300
 			p.setGameMode(GameMode.ADVENTURE);
@@ -184,6 +186,7 @@ public class Main extends JavaPlugin implements Listener {
 					
 					@Override
 					public void run() {
+						if(afterlife.containsKey(p.getUniqueId())) {
 						if(!afterlife.get(p.getUniqueId()).equals(0)) {
 							afterlife.put(p.getUniqueId(), afterlife.get(p.getUniqueId()) - 1);
 						} if(afterlife.get(p.getUniqueId()).equals(0)){
@@ -198,6 +201,7 @@ public class Main extends JavaPlugin implements Listener {
 						}
 						int i = afterlife.get(p.getUniqueId());
 						ActionBarAPI.sendActionBar(p,  ChatColor.WHITE + "Je bent nog voor " + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest!");
+					}
 					}
 				}.runTaskTimerAsynchronously(this, 20, 20);
 		}
