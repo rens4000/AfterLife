@@ -113,6 +113,7 @@ public class Main extends JavaPlugin implements Listener {
 						 p.removePotionEffect(PotionEffectType.INVISIBILITY);
                          Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.showPlayer(p));
                          p.sendMessage(ChatColor.AQUA + "Je bent weer levend! Veel succes.");
+                         p.kickPlayer(ChatColor.RED + "Je bent weer levend! Rejoin de server zodat mensen je weer kunnen zien!");
                          getConfig().set("sessions." + p.getUniqueId(), "-1");
 						this.cancel();
 					}
@@ -175,7 +176,6 @@ public class Main extends JavaPlugin implements Listener {
 	        p.setCanPickupItems(false);
 	        p.sendTitle(ChatColor.AQUA + "U bent dood gegaan", ChatColor.RED + "U bent tijdelijk een geest");
 	        p.sendMessage(ChatColor.RED + "Je bent nu " + getConfig().get("sessions." + e.getPlayer().getUniqueId()) + " secondes niet zichbaar voor andere spelers, ook kan je niet chatten, items opakken of commands uitvoeren. Na 5 minuten zal je weer levend zijn en kan je alles weer!");
-	        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mute " + p.getName() + getConfig().getInt("sessions." + e.getPlayer().getUniqueId()) + "s"); //default = 5m
 	        Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.hidePlayer(p));
 	        p.setGameMode(GameMode.SURVIVAL);
 	        p.setCanPickupItems(true);
@@ -196,7 +196,7 @@ public class Main extends JavaPlugin implements Listener {
 						int i = afterlife.get(p.getUniqueId());
 						ActionBarAPI.sendActionBar(p,  ChatColor.WHITE + "Je bent nog voor " + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest!");
 					}
-				}.runTaskTimerAsynchronously(this, 10, 10);
+				}.runTaskTimerAsynchronously(this, 20, 20);
 		}
 	}
 	
