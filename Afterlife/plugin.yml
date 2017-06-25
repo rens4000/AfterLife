@@ -1,7 +1,7 @@
 name: Afterlife
 version: 1.0
 main: nl.gewoonhdgaming.afterlife.Main
-author: [boykev,rens4000]
+author: [boykev,rens4000,melle]
 commands:
   al:
     description: Information Command for AfterLife.

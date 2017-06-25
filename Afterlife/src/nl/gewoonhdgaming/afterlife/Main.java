@@ -69,7 +69,7 @@ public class Main extends JavaPlugin implements Listener {
 			Player ghg = (Player) sender;
 			if (args.length == 0) {
 				if (ghg.hasPermission("AfterLife.user")) {
-					ghg.sendMessage(ChatColor.RED + "Development by: Boykev en Rens en gefixt door Melle");
+					ghg.sendMessage(ChatColor.RED + "Development by: Boykev en Rens");
 					ghg.sendMessage(ChatColor.RED + "Product Owner: GewoonHDEnterprise");
 					ghg.sendMessage(ChatColor.RED + "Copyright, contribution not allowed!");
 			}
@@ -113,7 +113,7 @@ public class Main extends JavaPlugin implements Listener {
 						 p.removePotionEffect(PotionEffectType.INVISIBILITY);
                          Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.showPlayer(p));
                          p.sendMessage(ChatColor.AQUA + "Je bent weer levend! Veel succes.");
-                         getConfig().set("sessions." + p.getUniqueId(), "-1");
+                         getConfig().set("sessions." + p.getUniqueId(), null);
                          Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "effect " + p.getName() + " minecraft:invisibility");
                          saveConfig();
 					}
