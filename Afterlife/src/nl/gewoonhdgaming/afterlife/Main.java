@@ -69,7 +69,7 @@ public class Main extends JavaPlugin implements Listener {
 			Player ghg = (Player) sender;
 			if (args.length == 0) {
 				if (ghg.hasPermission("AfterLife.user")) {
-					ghg.sendMessage(ChatColor.RED + "Development by: Boykev en Rens");
+					ghg.sendMessage(ChatColor.RED + "Development by: Boykev en Rens en gefixt door Melle");
 					ghg.sendMessage(ChatColor.RED + "Product Owner: GewoonHDEnterprise");
 					ghg.sendMessage(ChatColor.RED + "Copyright, contribution not allowed!");
 			}
@@ -160,7 +160,7 @@ public class Main extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onDisconnect(PlayerQuitEvent e) {
 		if(afterlife.containsKey(e.getPlayer().getUniqueId())) {
-			getConfig().set("sessions." + e.getPlayer().getUniqueId(), afterlife.get(e.getPlayer().getUniqueId()));
+			getConfig().set("sessions." + e.getPlayer().getUniqueId().toString(), afterlife.get(e.getPlayer().getUniqueId()));
 			saveConfig();
 			afterlife.remove(e.getPlayer().getUniqueId());
 		}
@@ -168,9 +168,9 @@ public class Main extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
-		if(getConfig().get("sessions." + e.getPlayer().getUniqueId()) != null) {
+		if(getConfig().get("sessions." + e.getPlayer().getUniqueId().toString()) != null) {
 			Player p = (Player) e.getPlayer();
-			afterlife.put(p.getUniqueId(), getConfig().getInt("sessions." + e.getPlayer().getUniqueId()));//Default = 300
+			afterlife.put(p.getUniqueId(), getConfig().getInt("sessions." + e.getPlayer().getUniqueId().toString()));//Default = 300
 			p.setGameMode(GameMode.ADVENTURE);
 	        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, false, false));
 	        p.setCanPickupItems(false);
