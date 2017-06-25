@@ -106,9 +106,10 @@ public class Main extends JavaPlugin implements Listener {
 				
 				@Override
 				public void run() {
-					if(!afterlife.get(p.getUniqueId()).equals(0)) {
+					if(afterlife.containsKey(p.getUniqueId()) && !afterlife.get(p.getUniqueId()).equals(1)) {
 						afterlife.put(p.getUniqueId(), afterlife.get(p.getUniqueId()) - 1);
-					} else {
+						return;
+					}
 						afterlife.remove(p.getUniqueId());
 						 p.removePotionEffect(PotionEffectType.INVISIBILITY);
                          Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.showPlayer(p));
@@ -117,13 +118,12 @@ public class Main extends JavaPlugin implements Listener {
                          getConfig().set("sessions." + p.getUniqueId(), null);
                          saveConfig();
 						this.cancel();
-					}
 					if(!afterlife.containsKey(p.getUniqueId()))
 						return;
 					int i = afterlife.get(p.getUniqueId());
 					ActionBarAPI.sendActionBar(p, "Je bent nog voor" + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest");
 				}
-			}.runTaskTimerAsynchronously(this, 20, 20);
+			}.runTaskTimerAsynchronously(this, 0, 20);
 	}
 	
 	public void sendAction(Player p, String message) {
@@ -187,7 +187,7 @@ public class Main extends JavaPlugin implements Listener {
 					@Override
 					public void run() {
 						if(afterlife.containsKey(p.getUniqueId())) {
-						if(!afterlife.get(p.getUniqueId()).equals(0)) {
+							if(afterlife.containsKey(p.getUniqueId()) && !afterlife.get(p.getUniqueId()).equals(1)) {
 							afterlife.put(p.getUniqueId(), afterlife.get(p.getUniqueId()) - 1);
 						} if(afterlife.get(p.getUniqueId()).equals(0)){
 							afterlife.remove(p.getUniqueId());
@@ -203,7 +203,7 @@ public class Main extends JavaPlugin implements Listener {
 						ActionBarAPI.sendActionBar(p,  ChatColor.WHITE + "Je bent nog voor " + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest!");
 					}
 					}
-				}.runTaskTimerAsynchronously(this, 20, 20);
+				}.runTaskTimerAsynchronously(this, 0, 20);
 		}
 	}
 	
