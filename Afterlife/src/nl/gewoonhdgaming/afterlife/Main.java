@@ -186,7 +186,7 @@ public class Main extends JavaPlugin implements Listener {
 					
 					@Override
 					public void run() {
-						if(afterlife.containsKey(p.getUniqueId())) {
+						if(getConfig().contains("sessions." + e.getPlayer().getUniqueId())) {
 							if(afterlife.containsKey(p.getUniqueId()) && !afterlife.get(p.getUniqueId()).equals(1)) {
 							afterlife.put(p.getUniqueId(), afterlife.get(p.getUniqueId()) - 1);
 						} if(afterlife.get(p.getUniqueId()).equals(0)){
