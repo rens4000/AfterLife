@@ -112,7 +112,7 @@ public class Main extends JavaPlugin implements Listener {
 						 p.removePotionEffect(PotionEffectType.INVISIBILITY);
                          Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.showPlayer(p));
                          p.sendMessage(ChatColor.AQUA + "Je bent weer levend! Veel succes.");
-                         getConfig().set("sessions." + e.getPlayer().getUniqueId(), null);
+                         getConfig().set("sessions." + p.getUniqueId(), null);
 						this.cancel();
 					}
 					int i = afterlife.get(p.getUniqueId());
