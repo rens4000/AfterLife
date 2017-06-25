@@ -183,7 +183,7 @@ public class Main extends JavaPlugin implements Listener {
 					
 					@Override
 					public void run() {
-						if(!afterlife.get(p.getUniqueId()) > 0) {
+						if(afterlife.get(p.getUniqueId()) > 0) {
 							afterlife.put(p.getUniqueId(), afterlife.get(p.getUniqueId()) - 1);
 						} else {
 							afterlife.remove(p.getUniqueId());
