@@ -113,7 +113,7 @@ public class Main extends JavaPlugin implements Listener {
 						 p.removePotionEffect(PotionEffectType.INVISIBILITY);
                          Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.showPlayer(p));
                          p.sendMessage(ChatColor.AQUA + "Je bent weer levend! Veel succes.");
-                         getConfig().set("sessions." + p.getUniqueId(), null);
+                         getConfig().set("sessions." + p.getUniqueId(), "-1");
 						this.cancel();
 					}
 					int i = afterlife.get(p.getUniqueId());
@@ -167,7 +167,7 @@ public class Main extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
-		if(getConfig().get("sessions." + e.getPlayer().getUniqueId()) != null || getConfig().getInt("sessions." + e.getPlayer().getUniqueId()) != 0 || getConfig().getInt("sessions." + e.getPlayer().getUniqueId()) > 0) {
+		if(getConfig().get("sessions." + e.getPlayer().getUniqueId()) != null || getConfig().getInt("sessions." + e.getPlayer().getUniqueId()) != -1) {
 			Player p = (Player) e.getPlayer();
 			afterlife.put(p.getUniqueId(), getConfig().getInt("sessions." + e.getPlayer().getUniqueId()));//Default = 300
 			p.setGameMode(GameMode.ADVENTURE);
