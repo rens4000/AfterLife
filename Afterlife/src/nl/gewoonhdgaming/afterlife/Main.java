@@ -17,6 +17,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -31,6 +33,7 @@ import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
 
+@SuppressWarnings("deprecation")
 public class Main extends JavaPlugin implements Listener {
 	
 	public HashMap<UUID, Integer> afterlife = new HashMap<>();
@@ -84,7 +87,6 @@ public class Main extends JavaPlugin implements Listener {
 		return false;	
 		
 	}
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onDeath(PlayerDeathEvent e) {
 		if(!(e.getEntity() instanceof Player)) {
@@ -97,7 +99,6 @@ public class Main extends JavaPlugin implements Listener {
         p.setCanPickupItems(false);
         p.sendTitle(ChatColor.AQUA + "U bent dood gegaan", ChatColor.RED + "U bent tijdelijk een geest");
         p.sendMessage(ChatColor.RED + "Je bent nu 5 minuten niet zichbaar voor andere spelers, ook kan je niet chatten, items opakken of commands uitvoeren. Na 5 minuten zal je weer levend zijn en kan je alles weer!");
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mute " + p.getName() + " 5m"); //default = 5m
         Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.hidePlayer(p));
         p.setGameMode(GameMode.SURVIVAL);
         p.setCanPickupItems(true);
@@ -116,7 +117,7 @@ public class Main extends JavaPlugin implements Listener {
 						this.cancel();
 					}
 					int i = afterlife.get(p.getUniqueId());
-					sendAction(p, ChatColor.WHITE + "Je bent nog voor " + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest!");
+					ActionBarAPI.sendActionBar(p, "Je bent nog voor" + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest");
 				}
 			}.runTaskTimerAsynchronously(this, 20, 20);
 	}
@@ -164,7 +165,6 @@ public class Main extends JavaPlugin implements Listener {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
 		if(getConfig().get("sessions." + e.getPlayer().getUniqueId()) != null || getConfig().getInt("sessions." + e.getPlayer().getUniqueId()) != 0 || getConfig().getInt("sessions." + e.getPlayer().getUniqueId()) > 0) {
@@ -196,7 +196,7 @@ public class Main extends JavaPlugin implements Listener {
 						int i = afterlife.get(p.getUniqueId());
 						ActionBarAPI.sendActionBar(p,  ChatColor.WHITE + "Je bent nog voor " + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest!");
 					}
-				}.runTaskTimerAsynchronously(this, 20, 20);
+				}.runTaskTimerAsynchronously(this, 10, 10);
 		}
 	}
 	
@@ -211,5 +211,25 @@ public class Main extends JavaPlugin implements Listener {
 			}
          }
 	}
+	
+	@EventHandler
+	public void onChat(PlayerChatEvent e) {
+		Player p = e.getPlayer();
+			if(afterlife.containsKey(p.getUniqueId())) {
+				e.setCancelled(true);
+				e.getPlayer().sendMessage(ChatColor.RED + "Je zit in de afterlife, dus kan je niet Chatten! Je bent nog voor "
+						+ afterlife.get(e.getPlayer().getUniqueId()) + " secondes in afterlife!");
+			}
+         }
+	
+	@EventHandler
+	public void onCommand(PlayerCommandPreprocessEvent  e) {
+		Player p = e.getPlayer();
+			if(afterlife.containsKey(p.getUniqueId())) {
+				e.setCancelled(true);
+				e.getPlayer().sendMessage(ChatColor.RED + "Je zit in de afterlife, dus kan je Geen commando's uitvoeren! Je bent nog voor "
+						+ afterlife.get(e.getPlayer().getUniqueId()) + " secondes in afterlife!");
+			}
+         }
 
 }
