@@ -4,4 +4,4 @@ main: nl.gewoonhdgaming.afterlife.Main
 author: [boykev,rens4000]
 commands:
   al:
-    description: Information Command for AfterLife
+    description: Information Command for AfterLife.
