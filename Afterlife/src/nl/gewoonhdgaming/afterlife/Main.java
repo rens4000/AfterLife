@@ -93,7 +93,7 @@ public class Main extends JavaPlugin implements Listener {
 			return;
 		}
 		Player p = e.getEntity();
-		afterlife.put(p.getUniqueId(), 300);//Default = 300
+		afterlife.put(p.getUniqueId(), 30);//Default = 300
 		p.setGameMode(GameMode.ADVENTURE);
         p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, false, false));
         p.setCanPickupItems(false);
@@ -113,9 +113,9 @@ public class Main extends JavaPlugin implements Listener {
 						 p.removePotionEffect(PotionEffectType.INVISIBILITY);
                          Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.showPlayer(p));
                          p.sendMessage(ChatColor.AQUA + "Je bent weer levend! Veel succes.");
-                         getConfig().set("sessions." + p.getUniqueId(), null);
+                         getConfig().set("sessions." + p.getUniqueId(), "-1");
+                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "effect " + p.getName() + " minecraft:invisibility");
                          saveConfig();
-						this.cancel();
 					}
 					int i = afterlife.get(p.getUniqueId());
 					ActionBarAPI.sendActionBar(p, "Je bent nog voor" + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest");
