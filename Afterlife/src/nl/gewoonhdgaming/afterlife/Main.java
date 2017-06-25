@@ -106,24 +106,21 @@ public class Main extends JavaPlugin implements Listener {
 				
 				@Override
 				public void run() {
-					if(afterlife.containsKey(p.getUniqueId()) && !afterlife.get(p.getUniqueId()).equals(1)) {
+					if(afterlife.get(p.getUniqueId()) != 0) {
 						afterlife.put(p.getUniqueId(), afterlife.get(p.getUniqueId()) - 1);
-						return;
-					}
+					} else {
 						afterlife.remove(p.getUniqueId());
 						 p.removePotionEffect(PotionEffectType.INVISIBILITY);
                          Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.showPlayer(p));
                          p.sendMessage(ChatColor.AQUA + "Je bent weer levend! Veel succes.");
-                         p.kickPlayer(ChatColor.RED + "Je bent weer levend! Rejoin de server zodat mensen je weer kunnen zien!");
                          getConfig().set("sessions." + p.getUniqueId(), null);
                          saveConfig();
 						this.cancel();
-					if(!afterlife.containsKey(p.getUniqueId()))
-						return;
+					}
 					int i = afterlife.get(p.getUniqueId());
 					ActionBarAPI.sendActionBar(p, "Je bent nog voor" + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest");
 				}
-			}.runTaskTimerAsynchronously(this, 0, 20);
+			}.runTaskTimerAsynchronously(this, 20, 20);
 	}
 	
 	public void sendAction(Player p, String message) {
@@ -171,7 +168,7 @@ public class Main extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
-		if(getConfig().contains("sessions." + e.getPlayer().getUniqueId())) {
+		if(getConfig().get("sessions." + e.getPlayer().getUniqueId()) != null) {
 			Player p = (Player) e.getPlayer();
 			afterlife.put(p.getUniqueId(), getConfig().getInt("sessions." + e.getPlayer().getUniqueId()));//Default = 300
 			p.setGameMode(GameMode.ADVENTURE);
@@ -186,10 +183,9 @@ public class Main extends JavaPlugin implements Listener {
 					
 					@Override
 					public void run() {
-						if(getConfig().contains("sessions." + e.getPlayer().getUniqueId())) {
-							if(afterlife.containsKey(p.getUniqueId()) && !afterlife.get(p.getUniqueId()).equals(1)) {
+						if(!afterlife.get(p.getUniqueId()).equals(0)) {
 							afterlife.put(p.getUniqueId(), afterlife.get(p.getUniqueId()) - 1);
-						} if(afterlife.get(p.getUniqueId()).equals(0)){
+						} else {
 							afterlife.remove(p.getUniqueId());
 							 p.removePotionEffect(PotionEffectType.INVISIBILITY);
 	                         Bukkit.getOnlinePlayers().forEach((otherPlayer) -> otherPlayer.showPlayer(p));
@@ -202,8 +198,7 @@ public class Main extends JavaPlugin implements Listener {
 						int i = afterlife.get(p.getUniqueId());
 						ActionBarAPI.sendActionBar(p,  ChatColor.WHITE + "Je bent nog voor " + ChatColor.AQUA + i + ChatColor.WHITE + " secondes een geest!");
 					}
-					}
-				}.runTaskTimerAsynchronously(this, 0, 20);
+				}.runTaskTimerAsynchronously(this, 20, 20);
 		}
 	}
 	
