@@ -3,7 +3,5 @@ version: 1.0
 main: nl.gewoonhdgaming.afterlife.Main
 author: [boykev,rens4000]
 commands:
-  Afterlife:
-    description: Main Command for AfterLife
   al:
     description: Information Command for AfterLife
